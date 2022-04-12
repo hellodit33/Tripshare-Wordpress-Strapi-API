@@ -411,3 +411,11 @@ img {
 input {
   padding: 5px;
 }
+
+.hide {
+  display: none;
+}
+
+.sorry {
+  padding: 10px;
+}

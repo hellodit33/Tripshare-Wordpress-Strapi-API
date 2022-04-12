@@ -24,15 +24,19 @@ async function getDataFromStrapi() {
         //This forEach loop goes through every element 
         myObject.data.forEach(element => {
     
-             //if/else if statement for when the map is not downloaded by the user
+             //if/else if statement for when geolocation and preferences are not submitted by the user
+             //the new trip form is not ready for selecting preferences and geolocation when creating a trip so this output does not show preferences and geolocation
+
+
         //dates become a string without time so that they can get back into the input date field when updating a trip
-        //here if user did not upload a map
+
         //data-id in the main div is used to get the object's id and use it in update and delete functions later
-         //the new trip form is not ready for uploading a map neither for selecting preferences and geolocation when creating a trip so this output does not show either map or preferences and geolocation
+         
+         
             let obj = element.attributes;
         
         
-            if (!obj.tripMap2.data) {
+            if (!obj.geolocation.data && !obj.preferences.data[0] && !obj.preferences.data[1]) {
            
 
             output += `<div data-id=${element.id}>
@@ -74,20 +78,22 @@ async function getDataFromStrapi() {
                         <td><p class="trip-betweendestination3">${obj.TripDestinations.BetweenDestination3}</p></td>
                         <td><p class="trip-arrivingdestination">${obj.TripDestinations.ArrivingDestination}</p></td>
                         
-    
+                       
                     
                     </tr>
                 </table>
-                <p>The map has not been downloaded by the user.</p>
+                <img src=${apiUrl}${obj.tripMap2.data[0].attributes.formats.large.url} class="trip-image"/> 
+
+               <p class="sorry">Unfortunately, no preferences or geolocation have been submitted by the user.</p>
             </div>
     </div>
             </div>
              
             `;
         }
-        //here if the user has downloaded a map, and there's geolocation and preferences linked to the trip
+        //here if there's geolocation and preferences linked to the trip - which is true for the data already ready in strapi database
     
-    else if (obj.tripMap2.data) {
+    else if (obj.geolocation && obj.preferences) {
         output += `<div data-id=${element.id}>
         
 
@@ -217,43 +223,28 @@ async function getToken() {
         return null;
     }
     }
-    
-    /*async function postImage() {
-        const urlUpload = "http://localhost:1337/api/upload";
 
+//this function submits a picture to the media library on Strapi, so that the post trip function can get the image's id and link it to its new entry. It's public to upload a picture because of the architecture of the new trip form function - TODO: create a login mode on the page so that this is only possible when logged in
+async function submitPicture() {
+    let response = await fetch('http://localhost:1337/api/upload', {
+      method: 'POST',
 
+      //because submit is on an input field from a form, it is possible to use FormData to get the data
+      body: new FormData(imageentry)
+    });
 
-    const formElement = document.getElementById('imageentry');
-
-    const request = new XMLHttpRequest();
-
-    const formData = new FormData();
-
-    const formElements = formElement.elements;
-
-    const data = {};
-
-    for (let i = 0; i < formElements.length; i++) {
-      const currentElement = formElements[i];
-      if (!['file'].includes(currentElement.type)) {
-        data[currentElement.name] = currentElement.value;
-      } else if (currentElement.type === 'file') {
-        for (let i = 0; i < currentElement.files.length; i++) {
-          const file = currentElement.files[i];
-          formData.append(`files.${currentElement.name}`, file, file.name);
-        }
-      }
-    }
-
-    formData.append('data', JSON.stringify(data));
-
-    request.open('POST', `${urlUpload}/trips`);
-
-    request.send(formData);
-  }*/
+    let result = await response.json();
 
 
    
+  
+   let imageId = result[0].id;
+
+ 
+   console.log(imageId)
+return imageId;
+  }
+
 
     async function postTrip() {
 
@@ -262,7 +253,9 @@ async function getToken() {
     let token = await getToken();
     if (!token) return;
 
-/*await postImage();*/
+    //imageId gets the Id from submitPicture
+    let imageId = await submitPicture();
+
    
 
         //url to the strapi's trips collection
@@ -279,9 +272,11 @@ async function getToken() {
         const betweenDestination2 = document.getElementById("betweenDestination2").value;
         const betweenDestination3 = document.getElementById("betweenDestination3").value;
         const arrivingDestination = document.getElementById("arrivingDestination").value;
-        const tripMap2 = document.getElementById("tripMap2").value;
+
+        //here tripMap becomes the submitted Image's id
+        const tripMap2 = imageId;
     
-    
+    console.log(tripMap2);
     
         
         //create an object with the included data from the new trip form
@@ -303,11 +298,17 @@ async function getToken() {
                 BetweenDestination3: betweenDestination3,
                 ArrivingDestination: arrivingDestination
             },
-            tripMap2: tripMap2,
+            //here the id of the tripmap2's object becomes the id of the new submitted image
+            tripMap2: {
+               data: 0,
+               id: tripMap2,
+                
+               
+         },
       
-        }
+        }}
+       
     
-        }
         
         //calls the API and post the data
         let TripsResponse = await fetch(urlTrips,

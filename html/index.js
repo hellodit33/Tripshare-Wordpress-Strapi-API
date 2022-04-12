@@ -31,7 +31,7 @@ async function getDataFromStrapi() {
         //here if user did not upload a map
         //data-id in the main div is used to get the object's id and use it in update and delete functions later
          //the new trip form is not ready for uploading a map neither for selecting preferences and geolocation when creating a trip so this output does not show either map or preferences and geolocation
-            if (!obj.tripMap2.data) {
+         if (!obj.geolocation.data && !obj.preferences.data[0] && !obj.preferences.data[1]) {
           
            
 
@@ -79,7 +79,9 @@ async function getDataFromStrapi() {
                     
                     </tr>
                 </table>
-                <p>The map has not been downloaded by the user.</p>
+                <img src=${apiUrl}${obj.tripMap2.data[0].attributes.formats.large.url} class="trip-image"/> 
+
+                <p class="sorry">Unfortunately, no preferences or geolocation have been submitted by the user.</p>
             </div>
     </div>
             </div>
@@ -89,7 +91,7 @@ async function getDataFromStrapi() {
     
     //here if the user has downloaded a map, and there's geolocation and preferences linked to the trip
    
-    else if (obj.tripMap2.data) {
+    else if (obj.geolocation && obj.preferences) {
         
         output += `<div data-id=${element.id}>
         
@@ -146,7 +148,6 @@ async function getDataFromStrapi() {
             <p class="geolocation tags">${obj.preferences.data[1].attributes.Preference}</p>
           </div>
         </div>
-     
        
 
 

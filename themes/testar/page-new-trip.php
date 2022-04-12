@@ -16,7 +16,7 @@ Template Name: New Trip
 <div class="loginform">
                   <!-- each input has a validating function and the div under it gets error messages -->
 
-    <p class="titel">Log in to continue</p>
+    <p class="titel">Log in to continue:</p>
     <input type="text" name="user" id="user" placeholder="Username" onchange="userValidate(this);">
          <!-- this error message also shows "unfortunately it did not work" when the login details are not valid after clicking on create a trip -->
 
@@ -34,21 +34,26 @@ Template Name: New Trip
 
 <div class="newtripform">
   
-    <p class="titel">Fill in the details for your trip</p>
-    <form id="imageentry">
-    <label for="name">Give a name to your trip</label><br>
+    <p class="titel">Fill in the details for your trip:</p>
+   
+    <label for="name">Give a name to your trip:</label><br>
     <input type="text" name="name" id="name" onchange="tripNameValidate(this);">
     <div id="tripNameError" class="errorInfo"></div>
 <br>
-   
-        <label for="tripMap2">Upload map</label><br>
-        <input type="file" name="tripMap2" id="tripMap2">
+<form id="imageentry">
+        <label for="tripMap2">Upload map:</label><br>
+        <!-- To submit a map to the entry, the picture is first downloaded to strapi on select on this input file, then when posting the trip, this image id and url are selected into the new trip -->
+
+        <input type="file" name="files" accept="image/*" onchange="submitPicture()"><br>
+       
+
+      </form>
   <br>
     
-    </form>
+ 
     
 <div>
-    <label for="description">Description</label><br>
+    <label for="description">Description:</label><br>
     <input type="text" name="description" id="description" onchange="tripDescriptionValidate(this);">
     <div id="tripDescriptionError" class="errorInfo"></div>
 </div><br>
@@ -56,7 +61,7 @@ Template Name: New Trip
                               <!-- form to validate the number of seats with the form's name and the input field's name -->
 
     <form name="newtripseats">
-    <label for="seats">Seats</label><br>
+    <label for="seats">Seats:</label><br>
     <input type="number" name="seats" id="seats" onchange="tripSeatsValidate(this);">
     <div id="tripSeatsError" class="errorInfo"></div>
 </form>
@@ -73,7 +78,7 @@ Template Name: New Trip
 </div><br>
 <div>
     <form name="newtriparriving">
-    <label for="tripDates-arriving">Arriving on</label><br>
+    <label for="tripDates-arriving">Arriving on:</label><br>
     <input type="date" name="tripDates-arriving" id="tripDates-arriving" placeholder="Arriving date" onchange="tripArrivingDatesValidate(this);">
     <div id="tripArrivingDateError" class="errorInfo"></div>
 

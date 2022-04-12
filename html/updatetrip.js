@@ -23,17 +23,17 @@ async function getDataFromStrapi() {
         //This forEach loop goes through every element 
         myObject.data.forEach(element => {
     
-             //if/else if statement for when the map is not downloaded by the user
+             
+                  //if/else if statement for when the map is not downloaded by the user
         //dates become a string without time so that they can get back into the input date field when updating a trip
         //here if user did not upload a map
         //data-id in the main div is used to get the object's id and use it in update and delete functions later
          //the new trip form is not ready for uploading a map neither for selecting preferences and geolocation when creating a trip so this output does not show either map or preferences and geolocation
-                  //the edit button appears here so that the user gets a form to update or delete when clicking on it
-
             let obj = element.attributes;
         
         
-            if (!obj.tripMap2.data) {
+            if (!obj.geolocation.data && !obj.preferences.data[0] && !obj.preferences.data[1]) {
+          
            
             output += `
         
@@ -85,7 +85,9 @@ async function getDataFromStrapi() {
                 </table>
 
 
-                <p>The map has not been downloaded by the user.</p>
+                <img src=${apiUrl}${obj.tripMap2.data[0].attributes.formats.large.url} class="trip-image"/> 
+
+                <p class="sorry">Unfortunately, no preferences or geolocation have been submitted by the user.</p>
                 </div>
                 </div>
                 <button id="edit">Edit</button>
@@ -96,9 +98,10 @@ async function getDataFromStrapi() {
             `;
         }
     
-            //here if the user has downloaded a map, and there's geolocation and preferences linked to the trip
+            //here if there's geolocation and preferences linked to the trip - which is true for the data already ready in strapi database
+    
 
-    else if (obj.tripMap2.data) {
+            else if (obj.geolocation && obj.preferences) {
         output += `<div data-id=${element.id}>
 
         <div class="kolumner">
@@ -198,7 +201,7 @@ async function getDataFromStrapi() {
        
         <br>
 
-        <div class="newtripform"
+        <div class="newtripform">
         <p class="titel">Fill in the details for your trip</p>
         <label for="name">Give a name to your trip:</label><br>
         <input type="text" name="name" id="name" placeholder="" onchange="tripNameValidate(this);">
@@ -215,7 +218,7 @@ async function getDataFromStrapi() {
         <div>
         <br>
         <form name="newtripseats">
-        <label for="seats">Seats</label><br>
+        <label for="seats">Seats:</label><br>
         <input type="number" name="seats" id="seats" onchange="tripSeatsValidate(this);">
         <div id="tripSeatsError" class="errorInfo"></div>
         </form>
@@ -232,7 +235,7 @@ async function getDataFromStrapi() {
         
         <div>
         <form name="newtriparriving">
-        <label for="tripDates-arriving">Arriving on</label><br>
+        <label for="tripDates-arriving">Arriving on:</label><br>
         <input type="date" name="tripDates-arriving" id="tripDates-arriving" placeholder="Arriving date"onchange="tripArrivingDatesValidate(this);">
         <div id="tripArrivingDateError" class="errorInfo"></div>
         </form>
@@ -267,6 +270,7 @@ async function getDataFromStrapi() {
         <div id="tripArrivingDestinationError" class="errorInfo"></div>
         </div>
 
+        <!-- The update map function is not ready -->
         <div>
         <label for="tripMap2">Upload map</label><br>
         <input type="file" name="tripMap2" id="tripMap2">

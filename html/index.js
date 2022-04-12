@@ -1,12 +1,11 @@
-//Funktion för att hämta data från Strapi CMS
+//Function to get data from Strapi
 async function getDataFromStrapi() {
-    //Url till Strapi.js API för att hämta alla trips
+    //Url to Strapi API to get all trips
     let url = "http://localhost:1337/api/trips?populate=*";
     let apiUrl ="http://localhost:1337";
-    let tripsUrl="http://localhost:1337/api/trips";
     
     
-    //Hämtar JSON från API och konverterar det till JS objekt
+    //Gets JSON from API and converts it to JS object 
     let stringResponse = await fetch(url, {
         method: 'GET',
         headers: {
@@ -19,18 +18,21 @@ async function getDataFromStrapi() {
     
     let output = "";
     
-    //Checkar om det är ett eller flera objekt som hämtas
-    //Kan undvikas genom flera funktioner; en för alla och en för unik
+    //Checks if it's one or several objects that are created
     if (Array.isArray(myObject.data)){
-        //Skapar en ForEach loop för varje element i Data-arrayen
+        //This forEach loop goes through every element 
         myObject.data.forEach(element => {
     
-            //Gör en pekare till attribut object
+           
             let obj = element.attributes;
         
-        
+        //if/else if statement for when the map is not downloaded by the user
+        //dates become a string without time so that they can get back into the input date field when updating a trip
+        //here if user did not upload a map
+        //data-id in the main div is used to get the object's id and use it in update and delete functions later
+         //the new trip form is not ready for uploading a map neither for selecting preferences and geolocation when creating a trip so this output does not show either map or preferences and geolocation
             if (!obj.tripMap2.data) {
-            //Skriver Output string
+          
            
 
             output += `<div data-id=${element.id}>
@@ -42,6 +44,7 @@ async function getDataFromStrapi() {
                 <h2 class="trip-name">${obj.tripName}</h2>
                 <div class="gridinfo">
                 <p>Leaving- and arriving date: </p>
+              
                 <p class="trip-leavingdate">${new Date(obj.TripDates.LeavingDate).toJSON().substring(0,10)}</p>
                 <p class="trip-arrivingdate">${new Date(obj.TripDates.ArrivingDate).toJSON().substring(0,10)}</p>
                     <p>Available Seats: </p>
@@ -84,10 +87,10 @@ async function getDataFromStrapi() {
             `;
         }
     
-    
+    //here if the user has downloaded a map, and there's geolocation and preferences linked to the trip
+   
     else if (obj.tripMap2.data) {
-    //if the user did not add any map
-            //Skriver Output string without map
+        
         output += `<div data-id=${element.id}>
         
 
@@ -159,21 +162,21 @@ async function getDataFromStrapi() {
  
 
 }  )}
-   
- //Skriver ut Output string till div-element
-    //document.write(output);
+   //Writes the output into the div tripsFetched
     document.getElementById("tripsFetched").innerHTML = output;
 
 }
 
+//all of the functions below are fetching the right trips corresponding to the user's preferences
+//the only information available when fetching through preferences and geolocation is trip name, trip description and available seats
+//TODO: refactoring
+//TODO: populating the preferences and geolocation with all the info about the trip (if possible through Strapi)
 async function fetchRelax() {
 
-//Url till Strapi.js API för att hämta alla trips
     let relaxUrl = "http://localhost:1337/api/preferences/1?fields=preference&populate=*";
     
     
     
-    //Hämtar JSON från API och konverterar det till JS objekt
     let stringResponse = await fetch(relaxUrl, {
         method: 'GET',
         headers: {
@@ -186,18 +189,13 @@ async function fetchRelax() {
     
     let output = "";
     
-    //Checkar om det är ett eller flera objekt som hämtas
-    //Kan undvikas genom flera funktioner; en för alla och en för unik
     if (Array.isArray(myObject.data.attributes.trips.data)){
-        //Skapar en ForEach loop för varje element i Data-arrayen
         myObject.data.attributes.trips.data.forEach(element => {
     
-            //Gör en pekare till attribut object
             let obj = element.attributes;
         
         
             {
-            //Skriver Output string
            
             output += `
                 
@@ -219,8 +217,7 @@ async function fetchRelax() {
     
    
 
-   //Skriver ut Output string till div-element
-    //document.write(output);
+   
     document.getElementById("tripsFetched").innerHTML = output;
 
 }  )}
@@ -231,12 +228,12 @@ async function fetchRelax() {
 
 async function fetchWaterfalls() {
 
-    //Url till Strapi.js API för att hämta alla trips
+   
         let relaxUrl = "http://localhost:1337/api/preferences/2?fields=preference&populate=trips";
         
         
         
-        //Hämtar JSON från API och konverterar det till JS objekt
+       
         let stringResponse = await fetch(relaxUrl, {
             method: 'GET',
             headers: {
@@ -249,18 +246,16 @@ async function fetchWaterfalls() {
         
         let output = "";
         
-        //Checkar om det är ett eller flera objekt som hämtas
-        //Kan undvikas genom flera funktioner; en för alla och en för unik
+       
         if (Array.isArray(myObject.data.attributes.trips.data)){
-            //Skapar en ForEach loop för varje element i Data-arrayen
+            
             myObject.data.attributes.trips.data.forEach(element => {
         
-                //Gör en pekare till attribut object
+                
                 let obj = element.attributes;
             
             
                 {
-                //Skriver Output string
                
                 output += `
                 
@@ -279,8 +274,7 @@ async function fetchWaterfalls() {
          </div>
                 `;
             }
-       //Skriver ut Output string till div-element
-        //document.write(output);
+      
         document.getElementById("tripsFetched").innerHTML = output;
     
     }  )}
@@ -289,12 +283,10 @@ async function fetchWaterfalls() {
 
     async function fetchHiking() {
 
-        //Url till Strapi.js API för att hämta alla trips
             let relaxUrl = "http://localhost:1337/api/preferences/3?fields=preference&populate=trips";
             
             
             
-            //Hämtar JSON från API och konverterar det till JS objekt
             let stringResponse = await fetch(relaxUrl, {
                 method: 'GET',
                 headers: {
@@ -307,18 +299,14 @@ async function fetchWaterfalls() {
             
             let output = "";
             
-            //Checkar om det är ett eller flera objekt som hämtas
-            //Kan undvikas genom flera funktioner; en för alla och en för unik
+        
             if (Array.isArray(myObject.data.attributes.trips.data)){
-                //Skapar en ForEach loop för varje element i Data-arrayen
                 myObject.data.attributes.trips.data.forEach(element => {
             
-                    //Gör en pekare till attribut object
                     let obj = element.attributes;
                 
                 
                     {
-                    //Skriver Output string
                    
                     output += `
                 
@@ -341,8 +329,7 @@ async function fetchWaterfalls() {
          
         
         
-           //Skriver ut Output string till div-element
-            //document.write(output);
+          
             document.getElementById("tripsFetched").innerHTML = output;
         
         }  )}
@@ -353,12 +340,10 @@ async function fetchWaterfalls() {
 
         async function fetchNorthernLights() {
 
-            //Url till Strapi.js API för att hämta alla trips
                 let relaxUrl = "http://localhost:1337/api/preferences/4?fields=preference&populate=trips";
                 
                 
                 
-                //Hämtar JSON från API och konverterar det till JS objekt
                 let stringResponse = await fetch(relaxUrl, {
                     method: 'GET',
                     headers: {
@@ -371,18 +356,14 @@ async function fetchWaterfalls() {
                 
                 let output = "";
                 
-                //Checkar om det är ett eller flera objekt som hämtas
-                //Kan undvikas genom flera funktioner; en för alla och en för unik
+               
                 if (Array.isArray(myObject.data.attributes.trips.data)){
-                    //Skapar en ForEach loop för varje element i Data-arrayen
                     myObject.data.attributes.trips.data.forEach(element => {
                 
-                        //Gör en pekare till attribut object
                         let obj = element.attributes;
                     
                     
                         {
-                        //Skriver Output string
                        
                         output += `
                 
@@ -404,8 +385,7 @@ async function fetchWaterfalls() {
              
             
             
-               //Skriver ut Output string till div-element
-                //document.write(output);
+               
                 document.getElementById("tripsFetched").innerHTML = output;
             
             }  )}
@@ -416,12 +396,12 @@ async function fetchWaterfalls() {
 
             async function fetchGlacierWalk() {
 
-                //Url till Strapi.js API för att hämta alla trips
+                
                     let relaxUrl = "http://localhost:1337/api/preferences/5?fields=preference&populate=trips";
                     
                     
                     
-                    //Hämtar JSON från API och konverterar det till JS objekt
+                  
                     let stringResponse = await fetch(relaxUrl, {
                         method: 'GET',
                         headers: {
@@ -434,18 +414,14 @@ async function fetchWaterfalls() {
                     
                     let output = "";
                     
-                    //Checkar om det är ett eller flera objekt som hämtas
-                    //Kan undvikas genom flera funktioner; en för alla och en för unik
+                  
                     if (Array.isArray(myObject.data.attributes.trips.data)){
-                        //Skapar en ForEach loop för varje element i Data-arrayen
                         myObject.data.attributes.trips.data.forEach(element => {
                     
-                            //Gör en pekare till attribut object
                             let obj = element.attributes;
                         
                         
                             {
-                            //Skriver Output string
                            
                             output += `
                 
@@ -469,8 +445,7 @@ async function fetchWaterfalls() {
                  
                 
                 
-                   //Skriver ut Output string till div-element
-                    //document.write(output);
+                
                     document.getElementById("tripsFetched").innerHTML = output;
                 
                 }  )}
@@ -481,12 +456,12 @@ async function fetchWaterfalls() {
 
                 async function fetchCamping() {
 
-                    //Url till Strapi.js API för att hämta alla trips
+                   
                         let relaxUrl = "http://localhost:1337/api/preferences/6?fields=preference&populate=trips";
                         
                         
                         
-                        //Hämtar JSON från API och konverterar det till JS objekt
+                     
                         let stringResponse = await fetch(relaxUrl, {
                             method: 'GET',
                             headers: {
@@ -499,18 +474,14 @@ async function fetchWaterfalls() {
                         
                         let output = "";
                         
-                        //Checkar om det är ett eller flera objekt som hämtas
-                        //Kan undvikas genom flera funktioner; en för alla och en för unik
+                        
                         if (Array.isArray(myObject.data.attributes.trips.data)){
-                            //Skapar en ForEach loop för varje element i Data-arrayen
                             myObject.data.attributes.trips.data.forEach(element => {
                         
-                                //Gör en pekare till attribut object
                                 let obj = element.attributes;
                             
                             
                                 {
-                                //Skriver Output string
                                
                                 output += `
                 
@@ -532,8 +503,6 @@ async function fetchWaterfalls() {
                      
                     
                     
-                       //Skriver ut Output string till div-element
-                        //document.write(output);
                         document.getElementById("tripsFetched").innerHTML = output;
                     
                     }  )}
@@ -544,12 +513,10 @@ async function fetchWaterfalls() {
 
                     async function fetchWhaleWatching() {
 
-                        //Url till Strapi.js API för att hämta alla trips
                             let relaxUrl = "http://localhost:1337/api/preferences/7?fields=preference&populate=trips";
                             
                             
                             
-                            //Hämtar JSON från API och konverterar det till JS objekt
                             let stringResponse = await fetch(relaxUrl, {
                                 method: 'GET',
                                 headers: {
@@ -562,18 +529,14 @@ async function fetchWaterfalls() {
                             
                             let output = "";
                             
-                            //Checkar om det är ett eller flera objekt som hämtas
-                            //Kan undvikas genom flera funktioner; en för alla och en för unik
+                           
                             if (Array.isArray(myObject.data.attributes.trips.data)){
-                                //Skapar en ForEach loop för varje element i Data-arrayen
                                 myObject.data.attributes.trips.data.forEach(element => {
                             
-                                    //Gör en pekare till attribut object
                                     let obj = element.attributes;
                                 
                                 
                                     {
-                                    //Skriver Output string
                                    
                                     output += `
                 
@@ -597,8 +560,6 @@ async function fetchWaterfalls() {
                          
                         
                         
-                           //Skriver ut Output string till div-element
-                            //document.write(output);
                             document.getElementById("tripsFetched").innerHTML = output;
                         
                         }  )}
@@ -609,12 +570,10 @@ async function fetchWaterfalls() {
 
                         async function fetchSwimmingPool() {
 
-                            //Url till Strapi.js API för att hämta alla trips
                                 let relaxUrl = "http://localhost:1337/api/preferences/8?fields=preference&populate=trips";
                                 
                                 
                                 
-                                //Hämtar JSON från API och konverterar det till JS objekt
                                 let stringResponse = await fetch(relaxUrl, {
                                     method: 'GET',
                                     headers: {
@@ -627,18 +586,14 @@ async function fetchWaterfalls() {
                                 
                                 let output = "";
                                 
-                                //Checkar om det är ett eller flera objekt som hämtas
-                                //Kan undvikas genom flera funktioner; en för alla och en för unik
+                               
                                 if (Array.isArray(myObject.data.attributes.trips.data)){
-                                    //Skapar en ForEach loop för varje element i Data-arrayen
                                     myObject.data.attributes.trips.data.forEach(element => {
                                 
-                                        //Gör en pekare till attribut object
                                         let obj = element.attributes;
                                     
                                     
                                         {
-                                        //Skriver Output string
                                        
                                         output += `
                 
@@ -661,8 +616,7 @@ async function fetchWaterfalls() {
                              
                             
                             
-                               //Skriver ut Output string till div-element
-                                //document.write(output);
+                               
                                 document.getElementById("tripsFetched").innerHTML = output;
                             
                             }  )}
@@ -673,12 +627,11 @@ async function fetchWaterfalls() {
 
                             async function fetchPhotography() {
 
-                                //Url till Strapi.js API för att hämta alla trips
                                     let relaxUrl = "http://localhost:1337/api/preferences/9?fields=preference&populate=trips";
                                     
                                     
                                     
-                                    //Hämtar JSON från API och konverterar det till JS objekt
+                                    
                                     let stringResponse = await fetch(relaxUrl, {
                                         method: 'GET',
                                         headers: {
@@ -691,18 +644,13 @@ async function fetchWaterfalls() {
                                     
                                     let output = "";
                                     
-                                    //Checkar om det är ett eller flera objekt som hämtas
-                                    //Kan undvikas genom flera funktioner; en för alla och en för unik
                                     if (Array.isArray(myObject.data.attributes.trips.data)){
-                                        //Skapar en ForEach loop för varje element i Data-arrayen
                                         myObject.data.attributes.trips.data.forEach(element => {
                                     
-                                            //Gör en pekare till attribut object
                                             let obj = element.attributes;
                                         
                                         
                                             {
-                                            //Skriver Output string
                                            
                                             output += `
                 
@@ -724,8 +672,7 @@ async function fetchWaterfalls() {
                                     
    
                                 
-                                   //Skriver ut Output string till div-element
-                                    //document.write(output);
+                                   
                                     document.getElementById("tripsFetched").innerHTML = output;
                                 
                                 }  )}
@@ -736,12 +683,10 @@ async function fetchWaterfalls() {
 
                                 async function fetchSpontaneousTrip() {
 
-                                    //Url till Strapi.js API för att hämta alla trips
                                         let relaxUrl = "http://localhost:1337/api/preferences/10?fields=preference&populate=trips";
                                         
                                         
                                         
-                                        //Hämtar JSON från API och konverterar det till JS objekt
                                         let stringResponse = await fetch(relaxUrl, {
                                             method: 'GET',
                                             headers: {
@@ -754,18 +699,14 @@ async function fetchWaterfalls() {
                                         
                                         let output = "";
                                         
-                                        //Checkar om det är ett eller flera objekt som hämtas
-                                        //Kan undvikas genom flera funktioner; en för alla och en för unik
+                                        
                                         if (Array.isArray(myObject.data.attributes.trips.data)){
-                                            //Skapar en ForEach loop för varje element i Data-arrayen
                                             myObject.data.attributes.trips.data.forEach(element => {
                                         
-                                                //Gör en pekare till attribut object
                                                 let obj = element.attributes;
                                             
                                             
                                                 {
-                                                //Skriver Output string
                                                
                                                 output += `
                 
@@ -785,8 +726,7 @@ async function fetchWaterfalls() {
                                                 `;
                                             }
                                     
-                                       //Skriver ut Output string till div-element
-                                        //document.write(output);
+                                       
                                         document.getElementById("tripsFetched").innerHTML = output;
                                     
                                     }  )}
@@ -797,12 +737,10 @@ async function fetchWaterfalls() {
 
                                     async function fetchParty() {
 
-                                        //Url till Strapi.js API för att hämta alla trips
-                                            let relaxUrl = "http://localhost:1337/api/preferences/12?fields=preference&populate=trips";
+                                            let relaxUrl = "http://localhost:1337/api/preferences/11?fields=preference&populate=trips";
                                             
                                             
                                             
-                                            //Hämtar JSON från API och konverterar det till JS objekt
                                             let stringResponse = await fetch(relaxUrl, {
                                                 method: 'GET',
                                                 headers: {
@@ -815,18 +753,14 @@ async function fetchWaterfalls() {
                                             
                                             let output = "";
                                             
-                                            //Checkar om det är ett eller flera objekt som hämtas
-                                            //Kan undvikas genom flera funktioner; en för alla och en för unik
+                                          
                                             if (Array.isArray(myObject.data.attributes.trips.data)){
-                                                //Skapar en ForEach loop för varje element i Data-arrayen
                                                 myObject.data.attributes.trips.data.forEach(element => {
                                             
-                                                    //Gör en pekare till attribut object
                                                     let obj = element.attributes;
                                                 
                                                 
                                                     {
-                                                    //Skriver Output string
                                                    
                                                     output += `
                 
@@ -850,8 +784,7 @@ async function fetchWaterfalls() {
                                          
                                         
                                         
-                                           //Skriver ut Output string till div-element
-                                            //document.write(output);
+                                           
                                             document.getElementById("tripsFetched").innerHTML = output;
                                         
                                         }  )}
@@ -862,12 +795,10 @@ async function fetchWaterfalls() {
 
                                         async function fetchSport() {
 
-                                            //Url till Strapi.js API för att hämta alla trips
-                                                let relaxUrl = "http://localhost:1337/api/preferences/11?fields=preference&populate=trips";
+                                                let relaxUrl = "http://localhost:1337/api/preferences/12?fields=preference&populate=trips";
                                                 
                                                 
                                                 
-                                                //Hämtar JSON från API och konverterar det till JS objekt
                                                 let stringResponse = await fetch(relaxUrl, {
                                                     method: 'GET',
                                                     headers: {
@@ -880,18 +811,14 @@ async function fetchWaterfalls() {
                                                 
                                                 let output = "";
                                                 
-                                                //Checkar om det är ett eller flera objekt som hämtas
-                                                //Kan undvikas genom flera funktioner; en för alla och en för unik
+                                               
                                                 if (Array.isArray(myObject.data.attributes.trips.data)){
-                                                    //Skapar en ForEach loop för varje element i Data-arrayen
                                                     myObject.data.attributes.trips.data.forEach(element => {
                                                 
-                                                        //Gör en pekare till attribut object
                                                         let obj = element.attributes;
                                                     
                                                     
                                                         {
-                                                        //Skriver Output string
                                                        
                                                         output += `
                 
@@ -914,8 +841,7 @@ async function fetchWaterfalls() {
                                              
                                             
                                             
-                                               //Skriver ut Output string till div-element
-                                                //document.write(output);
+                                              
                                                 document.getElementById("tripsFetched").innerHTML = output;
                                             
                                             }  )}
@@ -926,12 +852,10 @@ async function fetchWaterfalls() {
 
                                             async function fetchHotSprings() {
 
-                                                //Url till Strapi.js API för att hämta alla trips
                                                     let relaxUrl = "http://localhost:1337/api/preferences/13?fields=preference&populate=trips";
                                                     
                                                     
                                                     
-                                                    //Hämtar JSON från API och konverterar det till JS objekt
                                                     let stringResponse = await fetch(relaxUrl, {
                                                         method: 'GET',
                                                         headers: {
@@ -944,18 +868,14 @@ async function fetchWaterfalls() {
                                                     
                                                     let output = "";
                                                     
-                                                    //Checkar om det är ett eller flera objekt som hämtas
-                                                    //Kan undvikas genom flera funktioner; en för alla och en för unik
+                                                    
                                                     if (Array.isArray(myObject.data.attributes.trips.data)){
-                                                        //Skapar en ForEach loop för varje element i Data-arrayen
                                                         myObject.data.attributes.trips.data.forEach(element => {
                                                     
-                                                            //Gör en pekare till attribut object
                                                             let obj = element.attributes;
                                                         
-                                                        
+                                    
                                                             {
-                                                            //Skriver Output string
                                                            
                                                             output += `
                 
@@ -978,8 +898,7 @@ async function fetchWaterfalls() {
                                                  
                                                 
                                                 
-                                                   //Skriver ut Output string till div-element
-                                                    //document.write(output);
+                                                   
                                                     document.getElementById("tripsFetched").innerHTML = output;
                                                 
                                                 }  )}
@@ -990,12 +909,10 @@ async function fetchWaterfalls() {
 
                                                 async function fetchCouchsurfing() {
 
-                                                    //Url till Strapi.js API för att hämta alla trips
                                                         let relaxUrl = "http://localhost:1337/api/preferences/14?fields=preference&populate=trips";
                                                         
                                                         
                                                         
-                                                        //Hämtar JSON från API och konverterar det till JS objekt
                                                         let stringResponse = await fetch(relaxUrl, {
                                                             method: 'GET',
                                                             headers: {
@@ -1008,18 +925,14 @@ async function fetchWaterfalls() {
                                                         
                                                         let output = "";
                                                         
-                                                        //Checkar om det är ett eller flera objekt som hämtas
-                                                        //Kan undvikas genom flera funktioner; en för alla och en för unik
+                                                        
                                                         if (Array.isArray(myObject.data.attributes.trips.data)){
-                                                            //Skapar en ForEach loop för varje element i Data-arrayen
                                                             myObject.data.attributes.trips.data.forEach(element => {
                                                         
-                                                                //Gör en pekare till attribut object
                                                                 let obj = element.attributes;
                                                             
                                                             
                                                                 {
-                                                                //Skriver Output string
                                                                
                                                                 output += `
                 
@@ -1042,8 +955,7 @@ async function fetchWaterfalls() {
                                                      
                                                     
                                                     
-                                                       //Skriver ut Output string till div-element
-                                                        //document.write(output);
+                                                       
                                                         document.getElementById("tripsFetched").innerHTML = output;
                                                     
                                                     }  )}
@@ -1054,12 +966,10 @@ async function fetchWaterfalls() {
 
                                                     async function fetchFarmStay() {
 
-                                                        //Url till Strapi.js API för att hämta alla trips
                                                             let relaxUrl = "http://localhost:1337/api/preferences/15?fields=preference&populate=trips";
                                                             
                                                             
                                                             
-                                                            //Hämtar JSON från API och konverterar det till JS objekt
                                                             let stringResponse = await fetch(relaxUrl, {
                                                                 method: 'GET',
                                                                 headers: {
@@ -1072,18 +982,14 @@ async function fetchWaterfalls() {
                                                             
                                                             let output = "";
                                                             
-                                                            //Checkar om det är ett eller flera objekt som hämtas
-                                                            //Kan undvikas genom flera funktioner; en för alla och en för unik
+                                                            
                                                             if (Array.isArray(myObject.data.attributes.trips.data)){
-                                                                //Skapar en ForEach loop för varje element i Data-arrayen
                                                                 myObject.data.attributes.trips.data.forEach(element => {
                                                             
-                                                                    //Gör en pekare till attribut object
                                                                     let obj = element.attributes;
                                                                 
                                                                 
                                                                     {
-                                                                    //Skriver Output string
                                                                    
                                                                     output += `
                 
@@ -1106,8 +1012,7 @@ async function fetchWaterfalls() {
                                                          
                                                         
                                                         
-                                                           //Skriver ut Output string till div-element
-                                                            //document.write(output);
+                                                           
                                                             document.getElementById("tripsFetched").innerHTML = output;
                                                         
                                                         }  )}
@@ -1119,12 +1024,10 @@ async function fetchWaterfalls() {
 
                                                         async function fetchNorth() {
 
-                                                            //Url till Strapi.js API för att hämta alla trips
-                                                                let relaxUrl = "http://localhost:1337/api/geolocations/1?fields=place&populate=trips";
+                                                                let relaxUrl = "http://localhost:1337/api/geolocations/4?fields=place&populate=trips";
                                                                 
                                                                 
                                                                 
-                                                                //Hämtar JSON från API och konverterar det till JS objekt
                                                                 let stringResponse = await fetch(relaxUrl, {
                                                                     method: 'GET',
                                                                     headers: {
@@ -1137,18 +1040,14 @@ async function fetchWaterfalls() {
                                                                 
                                                                 let output = "";
                                                                 
-                                                                //Checkar om det är ett eller flera objekt som hämtas
-                                                                //Kan undvikas genom flera funktioner; en för alla och en för unik
+                                                                
                                                                 if (Array.isArray(myObject.data.attributes.trips.data)){
-                                                                    //Skapar en ForEach loop för varje element i Data-arrayen
                                                                     myObject.data.attributes.trips.data.forEach(element => {
                                                                 
-                                                                        //Gör en pekare till attribut object
                                                                         let obj = element.attributes;
                                                                     
                                                                     
                                                                         {
-                                                                        //Skriver Output string
                                                                        
                                                                         output += `
                 
@@ -1172,8 +1071,7 @@ async function fetchWaterfalls() {
                                                              
                                                             
                                                             
-                                                               //Skriver ut Output string till div-element
-                                                                //document.write(output);
+                                                              
                                                                 document.getElementById("tripsFetched").innerHTML = output;
                                                             
                                                             }  )}
@@ -1184,12 +1082,10 @@ async function fetchWaterfalls() {
 
                                                             async function fetchSouth() {
 
-                                                                //Url till Strapi.js API för att hämta alla trips
-                                                                    let relaxUrl = "http://localhost:1337/api/geolocations/2?fields=place&populate=trips";
+                                                                    let relaxUrl = "http://localhost:1337/api/geolocations/5?fields=place&populate=trips";
                                                                     
                                                                     
                                                                     
-                                                                    //Hämtar JSON från API och konverterar det till JS objekt
                                                                     let stringResponse = await fetch(relaxUrl, {
                                                                         method: 'GET',
                                                                         headers: {
@@ -1202,18 +1098,14 @@ async function fetchWaterfalls() {
                                                                     
                                                                     let output = "";
                                                                     
-                                                                    //Checkar om det är ett eller flera objekt som hämtas
-                                                                    //Kan undvikas genom flera funktioner; en för alla och en för unik
+                                                                    
                                                                     if (Array.isArray(myObject.data.attributes.trips.data)){
-                                                                        //Skapar en ForEach loop för varje element i Data-arrayen
                                                                         myObject.data.attributes.trips.data.forEach(element => {
                                                                     
-                                                                            //Gör en pekare till attribut object
                                                                             let obj = element.attributes;
                                                                         
                                                                         
                                                                             {
-                                                                            //Skriver Output string
                                                                            
                                                                             output += `
                 
@@ -1237,8 +1129,7 @@ async function fetchWaterfalls() {
                                                                  
                                                                 
                                                                 
-                                                                   //Skriver ut Output string till div-element
-                                                                    //document.write(output);
+                                                                   
                                                                     document.getElementById("tripsFetched").innerHTML = output;
                                                                 
                                                                 }  )}
@@ -1249,12 +1140,10 @@ async function fetchWaterfalls() {
 
                                                                 async function fetchGoldenCircle() {
 
-                                                                    //Url till Strapi.js API för att hämta alla trips
-                                                                        let relaxUrl = "http://localhost:1337/api/geolocations/3?fields=place&populate=trips";
+                                                                        let relaxUrl = "http://localhost:1337/api/geolocations/6?fields=place&populate=trips";
                                                                         
                                                                         
                                                                         
-                                                                        //Hämtar JSON från API och konverterar det till JS objekt
                                                                         let stringResponse = await fetch(relaxUrl, {
                                                                             method: 'GET',
                                                                             headers: {
@@ -1267,18 +1156,14 @@ async function fetchWaterfalls() {
                                                                         
                                                                         let output = "";
                                                                         
-                                                                        //Checkar om det är ett eller flera objekt som hämtas
-                                                                        //Kan undvikas genom flera funktioner; en för alla och en för unik
+                                                                        
                                                                         if (Array.isArray(myObject.data.attributes.trips.data)){
-                                                                            //Skapar en ForEach loop för varje element i Data-arrayen
                                                                             myObject.data.attributes.trips.data.forEach(element => {
                                                                         
-                                                                                //Gör en pekare till attribut object
                                                                                 let obj = element.attributes;
                                                                             
                                                                             
                                                                                 {
-                                                                                //Skriver Output string
                                                                                
                                                                                 output += `
                 
@@ -1301,8 +1186,7 @@ async function fetchWaterfalls() {
                                                                      
                                                                     
                                                                     
-                                                                       //Skriver ut Output string till div-element
-                                                                        //document.write(output);
+                                                                       
                                                                         document.getElementById("tripsFetched").innerHTML = output;
                                                                     
                                                                     }  )}
@@ -1313,12 +1197,12 @@ async function fetchWaterfalls() {
 
                                                                     async function fetchHiddenGem() {
 
-                                                                        //Url till Strapi.js API för att hämta alla trips
-                                                                            let relaxUrl = "http://localhost:1337/api/geolocations/4?fields=place&populate=trips";
+                                                                        
+                                                                            let relaxUrl = "http://localhost:1337/api/geolocations/7?fields=place&populate=trips";
                                                                             
                                                                             
                                                                             
-                                                                            //Hämtar JSON från API och konverterar det till JS objekt
+                                                                           
                                                                             let stringResponse = await fetch(relaxUrl, {
                                                                                 method: 'GET',
                                                                                 headers: {
@@ -1331,18 +1215,14 @@ async function fetchWaterfalls() {
                                                                             
                                                                             let output = "";
                                                                             
-                                                                            //Checkar om det är ett eller flera objekt som hämtas
-                                                                            //Kan undvikas genom flera funktioner; en för alla och en för unik
+                                                                           
                                                                             if (Array.isArray(myObject.data.attributes.trips.data)){
-                                                                                //Skapar en ForEach loop för varje element i Data-arrayen
                                                                                 myObject.data.attributes.trips.data.forEach(element => {
                                                                             
-                                                                                    //Gör en pekare till attribut object
                                                                                     let obj = element.attributes;
                                                                                 
                                                                                 
                                                                                     {
-                                                                                    //Skriver Output string
                                                                                    
                                                                                     output += `
                 
@@ -1363,8 +1243,6 @@ async function fetchWaterfalls() {
                                                                                 }
                                                                                 
                                                                         
-                                                                           //Skriver ut Output string till div-element
-                                                                            //document.write(output);
                                                                             document.getElementById("tripsFetched").innerHTML = output;
                                                                         
                                                                         }  )}
@@ -1375,12 +1253,10 @@ async function fetchWaterfalls() {
 
                                                                         async function fetchSnaefellsnes() {
 
-                                                                            //Url till Strapi.js API för att hämta alla trips
-                                                                                let relaxUrl = "http://localhost:1337/api/geolocations/5?fields=place&populate=trips";
+                                                                                let relaxUrl = "http://localhost:1337/api/geolocations/8?fields=place&populate=trips";
                                                                                 
                                                                                 
                                                                                 
-                                                                                //Hämtar JSON från API och konverterar det till JS objekt
                                                                                 let stringResponse = await fetch(relaxUrl, {
                                                                                     method: 'GET',
                                                                                     headers: {
@@ -1393,18 +1269,13 @@ async function fetchWaterfalls() {
                                                                                 
                                                                                 let output = "";
                                                                                 
-                                                                                //Checkar om det är ett eller flera objekt som hämtas
-                                                                                //Kan undvikas genom flera funktioner; en för alla och en för unik
                                                                                 if (Array.isArray(myObject.data.attributes.trips.data)){
-                                                                                    //Skapar en ForEach loop för varje element i Data-arrayen
                                                                                     myObject.data.attributes.trips.data.forEach(element => {
                                                                                 
-                                                                                        //Gör en pekare till attribut object
                                                                                         let obj = element.attributes;
                                                                                     
                                                                                     
                                                                                         {
-                                                                                        //Skriver Output string
                                                                                        
                                                                                         output += `
                 
@@ -1428,8 +1299,6 @@ async function fetchWaterfalls() {
                                                                              
                                                                             
                                                                             
-                                                                               //Skriver ut Output string till div-element
-                                                                                //document.write(output);
                                                                                 document.getElementById("tripsFetched").innerHTML = output;
                                                                             
                                                                             }  )}
@@ -1440,12 +1309,10 @@ async function fetchWaterfalls() {
 
                                                                             async function fetchRingRoad() {
 
-                                                                                //Url till Strapi.js API för att hämta alla trips
-                                                                                    let relaxUrl = "http://localhost:1337/api/geolocations/6?fields=place&populate=trips";
+                                                                                    let relaxUrl = "http://localhost:1337/api/geolocations/9?fields=place&populate=trips";
                                                                                     
                                                                                     
                                                                                     
-                                                                                    //Hämtar JSON från API och konverterar det till JS objekt
                                                                                     let stringResponse = await fetch(relaxUrl, {
                                                                                         method: 'GET',
                                                                                         headers: {
@@ -1458,18 +1325,13 @@ async function fetchWaterfalls() {
                                                                                     
                                                                                     let output = "";
                                                                                     
-                                                                                    //Checkar om det är ett eller flera objekt som hämtas
-                                                                                    //Kan undvikas genom flera funktioner; en för alla och en för unik
                                                                                     if (Array.isArray(myObject.data.attributes.trips.data)){
-                                                                                        //Skapar en ForEach loop för varje element i Data-arrayen
                                                                                         myObject.data.attributes.trips.data.forEach(element => {
                                                                                     
-                                                                                            //Gör en pekare till attribut object
                                                                                             let obj = element.attributes;
                                                                                         
                                                                                         
                                                                                             {
-                                                                                            //Skriver Output string
                                                                                            
                                                                                             output += `
                 
@@ -1492,8 +1354,6 @@ async function fetchWaterfalls() {
                                                                                  
                                                                                 
                                                                                 
-                                                                                   //Skriver ut Output string till div-element
-                                                                                    //document.write(output);
                                                                                     document.getElementById("tripsFetched").innerHTML = output;
                                                                                 
                                                                                 }  )}
@@ -1504,12 +1364,10 @@ async function fetchWaterfalls() {
 
                                                                                 async function fetchMountainTrip() {
 
-                                                                                    //Url till Strapi.js API för att hämta alla trips
-                                                                                        let relaxUrl = "http://localhost:1337/api/geolocations/7?fields=place&populate=trips";
+                                                                                        let relaxUrl = "http://localhost:1337/api/geolocations/10?fields=place&populate=trips";
                                                                                         
                                                                                         
                                                                                         
-                                                                                        //Hämtar JSON från API och konverterar det till JS objekt
                                                                                         let stringResponse = await fetch(relaxUrl, {
                                                                                             method: 'GET',
                                                                                             headers: {
@@ -1522,18 +1380,13 @@ async function fetchWaterfalls() {
                                                                                         
                                                                                         let output = "";
                                                                                         
-                                                                                        //Checkar om det är ett eller flera objekt som hämtas
-                                                                                        //Kan undvikas genom flera funktioner; en för alla och en för unik
                                                                                         if (Array.isArray(myObject.data.attributes.trips.data)){
-                                                                                            //Skapar en ForEach loop för varje element i Data-arrayen
                                                                                             myObject.data.attributes.trips.data.forEach(element => {
                                                                                         
-                                                                                                //Gör en pekare till attribut object
                                                                                                 let obj = element.attributes;
                                                                                             
                                                                                             
                                                                                                 {
-                                                                                                //Skriver Output string
                                                                                                
                                                                                                 output += `
                 
@@ -1553,8 +1406,6 @@ async function fetchWaterfalls() {
                                                                                                 `;
                                                                                             }
                                                                                     
-                                                                                      //Skriver ut Output string till div-element
-                                                                                        //document.write(output);
                                                                                         document.getElementById("tripsFetched").innerHTML = output;
                                                                                     
                                                                                     }  )}
@@ -1565,12 +1416,10 @@ async function fetchWaterfalls() {
 
                                                                                     async function fetchFjords() {
 
-                                                                                        //Url till Strapi.js API för att hämta alla trips
-                                                                                            let relaxUrl = "http://localhost:1337/api/geolocations/8?fields=place&populate=trips";
+                                                                                            let relaxUrl = "http://localhost:1337/api/geolocations/11?fields=place&populate=trips";
                                                                                             
                                                                                             
                                                                                             
-                                                                                            //Hämtar JSON från API och konverterar det till JS objekt
                                                                                             let stringResponse = await fetch(relaxUrl, {
                                                                                                 method: 'GET',
                                                                                                 headers: {
@@ -1583,18 +1432,13 @@ async function fetchWaterfalls() {
                                                                                             
                                                                                             let output = "";
                                                                                             
-                                                                                            //Checkar om det är ett eller flera objekt som hämtas
-                                                                                            //Kan undvikas genom flera funktioner; en för alla och en för unik
                                                                                             if (Array.isArray(myObject.data.attributes.trips.data)){
-                                                                                                //Skapar en ForEach loop för varje element i Data-arrayen
                                                                                                 myObject.data.attributes.trips.data.forEach(element => {
                                                                                             
-                                                                                                    //Gör en pekare till attribut object
                                                                                                     let obj = element.attributes;
                                                                                                 
                                                                                                 
                                                                                                     {
-                                                                                                    //Skriver Output string
                                                                                                    
                                                                                                     output += `
                 
@@ -1614,8 +1458,6 @@ async function fetchWaterfalls() {
                                                                                                     `;
                                                                                                 }
                                                                                         
-                                                                                           //Skriver ut Output string till div-element
-                                                                                            //document.write(output);
                                                                                             document.getElementById("tripsFetched").innerHTML = output;
                                                                                         
                                                                                         }  )}                              

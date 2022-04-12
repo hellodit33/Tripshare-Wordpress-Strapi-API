@@ -11,7 +11,42 @@ Author: Elodie Pradet & Simon Khalaf
   margin: auto;
 }
 
-/*----- Första bilden - startsidan -----*/
+body {
+  text-align: center;
+  margin: 0;
+  font-family: "Cabin", sans-serif;
+}
+
+.titel {
+  color: #02c39a;
+  font-weight: bold;
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+
+.title-pages {
+  padding-top: 130px;
+}
+
+.title-index {
+  padding-top: 30px;
+}
+
+.sektion h3 {
+  color: rgba(5, 102, 141, 0.75);
+  font-size: 30px;
+}
+
+.sektion p {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.buttons-index h2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 .container {
   position: relative;
   text-align: center;
@@ -19,40 +54,18 @@ Author: Elodie Pradet & Simon Khalaf
   font-family: "Cabin", sans-serif;
 }
 
-/*----- Logan till vänster -----*/
+/*----- Logo on the left -----*/
 .top-left {
   position: absolute;
   top: 8px;
   left: 16px;
 }
 
-/*----- Logga in ikonen till höger -----*/
+/*----- Login icon on the right -----*/
 .top-right {
   position: absolute;
   top: 5px;
   right: 16px;
-}
-
-/*----- Texten i mitten av bilden -----*/
-.centered {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding-top: 300px;
-  padding-left: 150px;
-  padding-right: 150px;
-}
-
-.container {
-  text-align: center;
-}
-
-h1 {
-  font-weight: 700;
-  font-size: 40px;
-  text-align: center;
-  width: 70%;
 }
 
 /*----- Navbar -----*/
@@ -95,30 +108,39 @@ li:hover {
   color: white;
 }
 
-/*----- Specifik navbar bakgrund till trip sidan -----*/
-.nav {
-  background: #f6f6f6;
-  height: 75px;
-}
-
-/*----- Sektionen under första bilden - startsidan -----*/
-section {
+nav {
   background-color: #f6f6f6;
-  text-align: center;
-  background-image: url(http://tripshare.local/wp-content/themes/testar/bakgrund.jpg);
-  width: 100%;
-  height: 100vh;
-  background-size: cover;
-  margin: 0;
-  padding: 0;
+  padding: 30px;
 }
 
-.catchphrase {
-  font-size: 25px;
-  padding: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+nav a {
+  background-color: #38a3a5;
+  color: white;
+  padding: 10px;
+  border-radius: 30px;
+  text-decoration: none;
+}
+
+nav a:hover {
+  background-color: #02c39a;
+  transition: 0.3s;
+}
+
+.logoimg {
+  float: left;
+}
+
+/*----- Buttons -----*/
+button {
+  padding: 15px;
+  margin: 10px;
+  border: 1px solid #02c39a;
+  background-color: #02c39a;
+  color: white;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  width: 170px;
 }
 
 button:hover {
@@ -128,13 +150,6 @@ button:hover {
   cursor: pointer;
 }
 
-.sektion {
-  width: 50%;
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
-
-/*----- Trips - bubblor med förslag -----*/
 .flex-container {
   display: flex;
   flex-wrap: wrap;
@@ -159,8 +174,56 @@ button:hover {
   text-align: center;
   padding: 20px;
 }
+/*----- Homepage -----*/
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 300px;
+  padding-left: 150px;
+  padding-right: 150px;
+}
 
-/*----- Logga in - sidan -----*/
+h1 {
+  font-weight: 700;
+  font-size: 40px;
+  text-align: center;
+  width: 70%;
+}
+
+section {
+  background-color: #f6f6f6;
+  text-align: center;
+  background-image: url(http://tripshare.local/wp-content/themes/testar/bakgrund.jpg);
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+}
+
+.catchphrase {
+  font-size: 25px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sektion {
+  width: 50%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+/*----- Specifik navbar bakgrund till trip sidan 
+.nav {
+  background: #f6f6f6;
+  height: 75px;
+}
+-----*/
+
+/*----- Login page -----*/
 .login {
   text-align: center;
   padding: 20px;
@@ -192,35 +255,7 @@ input[type="submit"] {
   width: 25%;
 }
 
-body {
-  text-align: center;
-  margin: 0;
-  font-family: "Cabin", sans-serif;
-}
-
-nav {
-  background-color: #f6f6f6;
-  padding: 30px;
-}
-
-nav a {
-  background-color: #38a3a5;
-  color: white;
-  padding: 10px;
-  border-radius: 30px;
-  text-decoration: none;
-}
-
-nav a:hover {
-  background-color: #02c39a;
-  transition: 0.3s;
-}
-
-.logoimg {
-  float: left;
-}
-
-/*----- Resorna -----*/
+/*----- Find trips -----*/
 
 .row h2 {
   color: white;
@@ -328,12 +363,11 @@ td {
   }
 }
 
-/*----- Kartorna så att de passar in -----*/
 img {
   width: 100%;
 }
 
-/*----- Resorna efter att ha tryckt på knapparna -----*/
+/*----- Filtered trips -----*/
 .filtrering {
   background-color: #38a3a5;
   width: 40%;
@@ -346,19 +380,6 @@ img {
 
 .filtrering h2 {
   color: white;
-}
-
-/*----- Knapparna längst upp -----*/
-button {
-  padding: 15px;
-  margin: 10px;
-  border: 1px solid #02c39a;
-  background-color: #02c39a;
-  color: white;
-  border-radius: 30px;
-  font-size: 16px;
-  font-weight: 700;
-  width: 170px;
 }
 
 .findtrips-button {
@@ -374,6 +395,8 @@ button {
   width: 200px;
 }
 
+/*----- New trip -----*/
+
 .loginform {
   width: 50%;
   margin: auto;
@@ -387,34 +410,4 @@ button {
 }
 input {
   padding: 5px;
-}
-
-.titel {
-  color: #02c39a;
-  font-weight: bold;
-  font-size: 25px;
-  margin-bottom: 10px;
-}
-
-.title-pages {
-  padding-top: 130px;
-}
-
-.title-index {
-  padding-top: 30px;
-}
-
-.sektion h3 {
-  color: rgba(5, 102, 141, 0.75);
-  font-size: 30px;
-}
-
-.sektion p {
-  font-size: 20px;
-  margin-top: 10px;
-}
-
-.buttons-index h2 {
-  margin-top: 20px;
-  margin-bottom: 20px;
 }

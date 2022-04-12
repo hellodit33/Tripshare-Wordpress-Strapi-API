@@ -21,12 +21,15 @@
         <a href="index.html">Find a trip</a>
         <a href="newtrip.html">Add a new trip</a>
         <a href="updatetrip.html">Update a trip</a>
-        <a href="login.html">Login</a>
-        <a href="logout.html">Log out</a>
-        <a href="signup.html">Signup</a>
+
     </nav>
+
+        <!-- Here a background picture, button, intro text and video about Tripshare (the code is in the php wordpress files) -->
+
     <div class="buttons-index">
   <h1 class="title-index">Join a trip with fellow travelers!</h1>
+
+  <!-- Buttons to pick a trip after preferences and geolocation, each function being a fetch function -->
   <h2>What would you like to do?</h2>
   <button onclick=fetchNorthernLights();>Northern Lights</button>
   <button onclick=fetchCouchsurfing();>Couchsurfing</button>
@@ -58,6 +61,7 @@
   <button onclick=fetchFjords();>Fjords</button>
 
 
+  <!-- Button to find any kind of trip -->
 
 <h2>Up for anything?</h2>
 <button onclick="getDataFromStrapi();">Find all trips</button>
@@ -67,6 +71,7 @@
     </div>
 
 
+  <!-- div where the trips are shown -->
 
     <div id="tripsFetched"></div>
 
@@ -75,6 +80,8 @@
 
 
 </body>
+  <!-- function fetching all the trips -->
+
 <script>
     getDataFromStrapi();
     

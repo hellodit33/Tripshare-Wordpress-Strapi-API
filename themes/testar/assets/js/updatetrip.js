@@ -1,12 +1,11 @@
-//Funktion för att hämta data från Strapi CMS
+//Function to get data from Strapi
 async function getDataFromStrapi() {
-    //Url till Strapi.js API för att hämta alla trips
+    //Url to Strapi API to get all trips
     let url = "http://localhost:1337/api/trips?populate=*";
     let apiUrl ="http://localhost:1337";
-    let tripsUrl="http://localhost:1337/api/trips";
     
     
-    //Hämtar JSON från API och konverterar det till JS objekt
+    //Gets JSON from API and converts it to JS object 
     let stringResponse = await fetch(url, {
         method: 'GET',
         headers: {
@@ -19,18 +18,22 @@ async function getDataFromStrapi() {
     
     let output = "";
     
-    //Checkar om det är ett eller flera objekt som hämtas
-    //Kan undvikas genom flera funktioner; en för alla och en för unik
+    //Checks if it's one or several objects that are created
     if (Array.isArray(myObject.data)){
-        //Skapar en ForEach loop för varje element i Data-arrayen
+        //This forEach loop goes through every element 
         myObject.data.forEach(element => {
     
-            //Gör en pekare till attribut object
+             //if/else if statement for when the map is not downloaded by the user
+        //dates become a string without time so that they can get back into the input date field when updating a trip
+        //here if user did not upload a map
+        //data-id in the main div is used to get the object's id and use it in update and delete functions later
+         //the new trip form is not ready for uploading a map neither for selecting preferences and geolocation when creating a trip so this output does not show either map or preferences and geolocation
+                  //the edit button appears here so that the user gets a form to update or delete when clicking on it
+
             let obj = element.attributes;
         
         
             if (!obj.tripMap2.data) {
-            //Skriver Output string
            
             output += `
         
@@ -93,10 +96,9 @@ async function getDataFromStrapi() {
             `;
         }
     
-    
+            //here if the user has downloaded a map, and there's geolocation and preferences linked to the trip
+
     else if (obj.tripMap2.data) {
-    //if the user did not add any map
-            //Skriver Output string without map
         output += `<div data-id=${element.id}>
 
         <div class="kolumner">
@@ -161,25 +163,15 @@ async function getDataFromStrapi() {
 
 }  )}
    
- //Skriver ut Output string till div-element
-    //document.write(output);
-    document.getElementById("tripsFetched").innerHTML = output;
+   //Writes the output into the div tripsFetched
+   document.getElementById("tripsFetched").innerHTML = output;
 
-    document.getElementById("tripsFetched").addEventListener('click', (e) => {
+//when edit button is pressed, the form comes up with the trip data in it, thanks to the button's parent element
+   document.getElementById("tripsFetched").addEventListener('click', (e) => {
         e.preventDefault();
-        let delButtonIsPressed = e.target.id == 'delete';
         let editButtonIsPressed = e.target.id == 'edit';
     
-        let id = e.target.parentElement.dataset.id;
-        //Delete - remove the existing post
-        /*method: DELETE
-        if(delButtonIsPressed) {
-            fetch(`${tripsUrl}/${id}`, {
-                method:'DELETE',
-            })
-            .then(res => res.json())
-            .then(() => location.reload())
-    } */
+        
     if(editButtonIsPressed) {
         const parent = e.target.parentElement;
         parent.innerHTML +=`
@@ -206,7 +198,7 @@ async function getDataFromStrapi() {
        
         <br>
 
-        <div class="newtripform">
+        <div class="newtripform"
         <p class="titel">Fill in the details for your trip</p>
         <label for="name">Give a name to your trip:</label><br>
         <input type="text" name="name" id="name" placeholder="" onchange="tripNameValidate(this);">
@@ -288,6 +280,7 @@ async function getDataFromStrapi() {
         <button id="delete" onclick="deleteTrip();">Delete</button>
         </div>
         `
+        //below: the info from the trip to update becomes the value of each input field in the form
         let nameValue = document.getElementById('name');
         let descriptionValue = document.getElementById('description');
         let tripDatesLeavingValue = document.getElementById('tripDates-leaving');
@@ -328,23 +321,21 @@ async function getDataFromStrapi() {
 )
 }
 
-
+//getToken tries to login to get a token back, it gets the user login details and creates an object of it, and sends in JSON format to the API
 async function getToken() {
-    //1. Göra ett inloggningsförsök för att få en Token returnerad
-    //2. Sammla data och skapa ett objekt av dessa
-    //3. Skicka iväg JSON till API /
+    
     
     let valid = true;
 
-    //Validera användarnamn och lösenord!
+    //if the login details are not valid, get token stops
     if ( !validateLogin() ) valid = false;
 
-    //Validera TripData
+    //if the trips details are not valid, get token stops
     if ( !validateTrips() ) valid = false;
 
     if (!valid) return null;
 
-    //Url till Strapi.js UserList
+    //url to the Strapi's userlist
     const urlUser = "http://localhost:1337/api/auth/local/";
     
     const user = document.getElementById("user").value;
@@ -352,15 +343,15 @@ async function getToken() {
 
     const password = document.getElementById("password").value;
     
-    //Skapar ett objekt av det användarnamn och lösenord som user har skrivit in i fält.
+    //creates an object with the info given by the user with the username, email and password
     let userObject = {
         identifier : user,
         email : email,
         password : password
     }
     
-    //Anropar API med inloggningsdata.
-    //Inkluderar Method och Headers
+       //calls the API with the user info 
+
     let userResponse = await fetch(urlUser,
     {
         method: 'POST',
@@ -370,16 +361,13 @@ async function getToken() {
         body: JSON.stringify(userObject)
     });
     
-    //Konverterar API response JSON string till ett object
     let userJson = await userResponse.json();
     console.log(userJson);
-//Kontrollerar om objektet har Token.
-    //Token ligger under attribut jwt
-    //Om så; inloggning är korrekt. Fortsätt till funktion postData med token som parameter.
+    //checks if the object has a token, if so, the function postTrip will work
     if (userJson.jwt) return userJson.jwt;
     else {
-        //Inloggningen har misslyckats. Skriv ut errormeddelande från Strapi.js
-       // let errMessage = userJson.error.message;
+        //if no, the login does not work and the user gets an error message
+
 
         document.getElementById("userError").innerText = "Unfortunately it did not work";
 
@@ -390,25 +378,26 @@ async function getToken() {
 async function deleteTrip() {
     let deleteUrl="http://localhost:1337/api/trips";
 
-    //Hämta Token från GetToken()
-    //Om ingen Token returneras, avbryt funktionen
+    //gets token from getToken
+    //if the token is not coming, the delete function stops
     let token = await getToken();
     if (!token) return;
 
+    //gets id from the object through parent element dataset id which is in the main div of the displayed object
     let id = document.getElementById("delete").parentElement.dataset.id;
 
-    //Anropar API med inloggningsdata.
-    //Inkluderar Method och Headers
+    //calls the API with the token and the id 
+    
     await fetch(`${deleteUrl}/${id}`,
         {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization" : "Bearer " + token //Inkluderar Token från inloggning tidigare.
+                "Authorization" : "Bearer " + token 
             }
         })
 
-    //Anropa "GetDataFromStrapi" för att skriva ut ny tabell
+    //reload the page with the trips data and without the deleted trip
     .then(res => res.json())
             .then(() => location.reload())
 
@@ -417,15 +406,16 @@ async function deleteTrip() {
 async function updateTrip() {
     let updateUrl="http://localhost:1337/api/trips";
 
-    //Hämta Token från GetToken()
-    //Om ingen Token returneras, avbryt funktionen
+   //gets token from getToken
+    //if the token is not coming, the delete function stops
     let token = await getToken();
     if (!token) return;
 
+     //gets id from the object through parent element dataset id which is in the main div of the displayed object
     let id = document.getElementById("button").parentElement.dataset.id;
    
 
-    //Hämtar data från fält
+    //gets the data from the input fields
 const name = document.getElementById("name").value;
 const description = document.getElementById("description").value;
 const seats = document.getElementById("seats").value;
@@ -437,7 +427,7 @@ const betweenDestination2 = document.getElementById("betweenDestination2").value
 const betweenDestination3 = document.getElementById("betweenDestination3").value;
 const arrivingDestination = document.getElementById("arrivingDestination").value;
 
-    //Skapa ett objekt med data inkluderat.
+    //creates an object with the data - single types and components
     let TripsObject = {
        
         data : {
@@ -453,7 +443,7 @@ const arrivingDestination = document.getElementById("arrivingDestination").value
         
     }}
 
-    //Fyller upp Data med parameter-värden
+    //fills the data with the info from the input fields
   
     if (name) TripsObject.data["tripName"] = name;
    if (description) TripsObject.data["tripDescription"] = description;
@@ -467,38 +457,39 @@ const arrivingDestination = document.getElementById("arrivingDestination").value
    if (arrivingDestination) TripsObject.data.TripDestinations["ArrivingDestination"] = arrivingDestination;
    
    
-    //Anropar API med pokemonObjekt
+    //calls the API with the token and the object's id to update
     await fetch(`${updateUrl}/${id}`,
     {
         method: 'PUT',
         headers: {
             "Content-Type": "application/json",
-            "Authorization" : "Bearer " + token //Inkluderar Token från inloggning tidigare.
+            "Authorization" : "Bearer " + token 
         },
         body: JSON.stringify(TripsObject)
     })
-
+//reloads the page with all the trips and the updated trip
     .then(res => res.json())
             .then(() => location.reload())
     
 }
 
- //Funktioner för validering
-//Validering av User Input
+  //Functions to validate data in the new trip form
+
 function userValidate(comp) {
-    // 1. Fältet måste vara ifyllt
+    //checks if there's a username
 
     let valid = true;
 
     if (comp.value.length == 0) {
-        //Misslyckad validering
+        //failed validation
         valid = false;
     }
 
-    //Check on lyckad validering
+    //if it did not work, error message
     if (!valid) {
         document.getElementById("userError").innerText = "Please write your username";
         return false;
+        //if it worked, empty error message
     } else {
         document.getElementById("userError").innerText = "";
         return true;
@@ -506,7 +497,7 @@ function userValidate(comp) {
 }
 
 
-
+//email validation - checks if it's a mail address 
 function emailValidate(comp)
 {
 valid=false;
@@ -528,18 +519,15 @@ if(!valid) {
 }
 }
 
-//Validering av Password input
+//password validation - checks if it's at least 5 characters long
 function passwordValidate(comp) {
-    // 1. Fältet måste vara minst 5 tecken eller längre
 
     let valid = true;
 
     if (comp.value.length <= 4) {
-        //Misslyckad validering
         valid = false;
     }
 
-    //Check on lyckad validering
     if (!valid) {
         document.getElementById("passwordError").innerText = "Please write a password of minimum 5 characters";
         return false;
@@ -549,22 +537,18 @@ function passwordValidate(comp) {
     }
 }
 
-//funktion för validering av inloggninfsförsök
+//validation of the login details - if one of them fails - the conclusion is false
 function validateLogin() {
-    //Variabel
     let valid = true;
 
-    //Validate Användarnamn
     if (!userValidate(document.getElementById("user"))) {
         valid = false;
     }
 
-     //Validate Email
      if (!emailValidate(document.getElementById("email"))) {
         valid = false;
     }
 
-    //Validate Password
     if (!passwordValidate(document.getElementById("password"))) {
         valid = false;
     }
@@ -572,23 +556,17 @@ function validateLogin() {
     return valid;
 }
 
-//Funktion för validering av Trip Name
+//validation of the trip name - there should be a value and the name should not only have numbers in it
 function tripNameValidate(comp) {
-    // 1. Fältet måste innehålla ett värde
-    // 2. Fältet får inte vara ett nummer
 
     let valid = true;
 
-    //CHeck om value är större än 0
     if (comp.value.length == 0) {
-        //Felaktig validering
         valid = false;
         document.getElementById("tripNameError").innerText = "Please give a name to your trip";
     }
 
-    //CHeck att värdet inte är ett nummer
     if ( !isNaN( comp.value ) && comp.value.length != 0) {
-        //Felaktig validering
         valid = false;
         document.getElementById("tripNameError").innerText = "The name cannot contain numbers";
     }
@@ -600,16 +578,13 @@ function tripNameValidate(comp) {
     return valid;
 }
 
-//Funktion för validering av Trip Name
+//validation of the trip description - there should be a value in the field
 function tripDescriptionValidate(comp) {
-    // 1. Fältet måste innehålla ett värde
     
 
     let valid = true;
 
-    //CHeck om value är större än 0
     if (comp.value.length == 0) {
-        //Felaktig validering
         valid = false;
         document.getElementById("tripDescriptionError").innerText = "Please describe your trip";
     }
@@ -621,9 +596,9 @@ function tripDescriptionValidate(comp) {
 
     return valid;
 }
-//Funktion för validering av Trip Name
+
+//validation of the trip dates - checking if there is a date with form name and input field name
 function tripLeavingDatesValidate(comp) {
-    // 1. Fältet måste innehålla ett värde
    let valid=true;
 
     var comp = document.forms['newtripleaving']['tripDates-leaving'].value;
@@ -639,9 +614,7 @@ function tripLeavingDatesValidate(comp) {
     return valid;
 }
 
-//Funktion för validering av Trip Name
 function tripArrivingDatesValidate(comp) {
-    // 1. Fältet måste innehålla ett värde
    let valid=true;
 
     var comp = document.forms['newtriparriving']['tripDates-arriving'].value;
@@ -657,9 +630,8 @@ function tripArrivingDatesValidate(comp) {
     return valid;
 }
 
-//Funktion för validering av Trip Name
+//validation of the number of seats - checking if there is number of seats with the form name and the input field name
 function tripSeatsValidate(comp) {
-    // 1. Fältet måste innehålla ett värde
    let valid=true;
 
     var comp = document.forms['newtripseats']['seats'].value;
@@ -675,16 +647,12 @@ function tripSeatsValidate(comp) {
     return valid;
 }
 
-//Funktion för validering av Trip Name
+//validation of the leaving destination - checking if there is a value
 function tripLeavingDestinationValidate(comp) {
-    // 1. Fältet måste innehålla ett värde
-    // 2. Fältet får inte vara ett nummer
 
     let valid = true;
 
-    //CHeck om value är större än 0
     if (comp.value.length == 0) {
-        //Felaktig validering
         valid = false;
         document.getElementById("tripLeavingDestinationError").innerText = "Please tell fellow travelers where you will be leaving";
     }
@@ -698,16 +666,12 @@ function tripLeavingDestinationValidate(comp) {
 }
 
 
-//Funktion för validering av Trip Name
+//validation of the arriving destination - checking if there is a value
 function tripArrivingDestinationValidate(comp) {
-    // 1. Fältet måste innehålla ett värde
-    // 2. Fältet får inte vara ett nummer
 
     let valid = true;
 
-    //CHeck om value är större än 0
     if (comp.value.length == 0) {
-        //Felaktig validering
         valid = false;
         document.getElementById("tripArrivingDestinationError").innerText = "Please tell fellow travelers where you will be arriving";
     }
@@ -719,7 +683,7 @@ function tripArrivingDestinationValidate(comp) {
 
     return valid;
 }
-//FUnktion för validering av Trip Name
+//function to check if any validation function of the trip form did not work - if so the function validate trips results into false and the postTrip function stops
 function validateTrips() {
     let valid = true;
 
@@ -728,31 +692,31 @@ function validateTrips() {
         valid = false;
     }
 
-    //Validate TripName
+    //Validate TripDescription
     if ( !tripDescriptionValidate(document.getElementById("description")) ) {
         valid = false;
     }
 
-    //Validate TripName
+    //Validate TripLeavingDates
     if ( !tripLeavingDatesValidate(document.getElementById("tripDates-leaving")) ) {
         valid = false;
     }
 
-    //Validate TripName
+    //Validate TripArrivingDates
     if ( !tripArrivingDatesValidate(document.getElementById("tripDates-leaving")) ) {
         valid = false;
     }
 
-     //Validate TripName
-     if ( !tripSeatsValidate(document.getElementById("tripDates-leaving")) ) {
+    //Validate TripSeats
+    if ( !tripSeatsValidate(document.getElementById("tripDates-leaving")) ) {
         valid = false;
     }
-     //Validate TripName
+     //Validate TripLeavingDestination
      if ( !tripLeavingDestinationValidate(document.getElementById("leavingDestination")) ) {
         valid = false;
     }
 
-      //Validate TripName
+      //Validate TripArrivingDestination
       if ( !tripArrivingDestinationValidate(document.getElementById("arrivingDestination")) ) {
         valid = false;
     }
@@ -761,7 +725,3 @@ function validateTrips() {
 }
 
    
-   
-
-
-

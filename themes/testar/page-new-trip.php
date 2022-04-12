@@ -8,12 +8,18 @@ Template Name: New Trip
   ?>
   
 
+      <!-- here a form to post a trip -->
 
   <h1 class="title-pages">Post a new trip</h1>
+            <!-- first div loginform for design css rules -->
+
 <div class="loginform">
+                  <!-- each input has a validating function and the div under it gets error messages -->
 
     <p class="titel">Log in to continue</p>
     <input type="text" name="user" id="user" placeholder="Username" onchange="userValidate(this);">
+         <!-- this error message also shows "unfortunately it did not work" when the login details are not valid after clicking on create a trip -->
+
     <div id="userError" class="errorInfo"></div>
     <br>
     
@@ -24,6 +30,8 @@ Template Name: New Trip
     <input type="password" name="password" id="password" placeholder="Password"onchange="passwordValidate(this);">
     <div id="passwordError" class="errorInfo"></div>
 </div>
+              <!-- div newtripform for design css rules -->
+
 <div class="newtripform">
   
     <p class="titel">Fill in the details for your trip</p>
@@ -45,13 +53,18 @@ Template Name: New Trip
     <div id="tripDescriptionError" class="errorInfo"></div>
 </div><br>
 <div>
+                              <!-- form to validate the number of seats with the form's name and the input field's name -->
+
     <form name="newtripseats">
     <label for="seats">Seats</label><br>
     <input type="number" name="seats" id="seats" onchange="tripSeatsValidate(this);">
     <div id="tripSeatsError" class="errorInfo"></div>
 </form>
 <br>
+
 <div>
+                          <!-- form to validate the dates with the form's name and the input field's name -->
+
     <form name="newtripleaving">
     <label for="tripDates-leaving">Leaving on:</label><br>
     <input type="date" name="tripDates-leaving" id="tripDates-leaving" placeholder="Departure date" onchange="tripLeavingDatesValidate(this);">
@@ -93,14 +106,16 @@ Template Name: New Trip
          
   
     
+                      <!-- function to post the trip -->
 
 
     <button onclick="postTrip();">Create a trip</button>
 </div>
+                      <!-- div where the trips are fectched and shownn after posting a trip -->
+
 <div id="tripsFetched"></div>
 <br>
 
-<script type = "text/JavaScript" src = "https://momentjs.com/downloads/moment.js"></script>
 <script src="newtrip.js"></script>
 
 

@@ -13,7 +13,6 @@
     <title>Post a new trip - Tripshare</title>
 </head>
 <body>
-
     <nav>
         <div class="logoimg">
         <img src="" alt="Loga">
@@ -21,18 +20,26 @@
         <a href="index.html">Find a trip</a>
         <a href="newtrip.html">Add a new trip</a>
         <a href="updatetrip.html">Update a trip</a>
-        <a href="login.html">Login</a>
-        <a href="logout.html">Log out</a>
-        <a href="signup.html">Signup</a>
+
     </nav>
 
+      <!-- here a form to post a trip -->
+
+
     <h1 class="title-pages">Post a new trip</h1>
+          <!-- first div loginform for design css rules -->
+
     <div class="loginform">
+                  <!-- each input has a validating function and the div under it gets error messages -->
+
     
         <p class="titel">Log in to continue</p>
         <input type="text" name="user" id="user" placeholder="Username" onchange="userValidate(this);">
+     <!-- this error message also shows "unfortunately it did not work" when the login details are not valid after clicking on create a trip -->
+
         <div id="userError" class="errorInfo"></div>
         <br>
+        
         
         <input type="email" name="email" id="email" placeholder="Email" onchange="emailValidate(this);">
         <div id="emailError" class="errorInfo"></div>
@@ -41,6 +48,8 @@
         <input type="password" name="password" id="password" placeholder="Password"onchange="passwordValidate(this);">
         <div id="passwordError" class="errorInfo"></div>
     </div>
+              <!-- div newtripform for design css rules -->
+
     <div class="newtripform">
       
         <p class="titel">Fill in the details for your trip</p>
@@ -61,7 +70,10 @@
         <input type="text" name="description" id="description" onchange="tripDescriptionValidate(this);">
         <div id="tripDescriptionError" class="errorInfo"></div>
     </div><br>
+
     <div>
+                          <!-- form to validate the number of seats with the form's name and the input field's name -->
+
         <form name="newtripseats">
         <label for="seats">Seats</label><br>
         <input type="number" name="seats" id="seats" onchange="tripSeatsValidate(this);">
@@ -69,6 +81,8 @@
     </form>
     <br>
     <div>
+                          <!-- form to validate the dates with the form's name and the input field's name -->
+
         <form name="newtripleaving">
         <label for="tripDates-leaving">Leaving on:</label><br>
         <input type="date" name="tripDates-leaving" id="tripDates-leaving" placeholder="Departure date" onchange="tripLeavingDatesValidate(this);">
@@ -111,13 +125,15 @@
       
         
     
-    
+                      <!-- function to post the trip -->
+
         <button onclick="postTrip();">Create a trip</button>
     </div>
+                      <!-- div where the trips are fectched and shownn after posting a trip -->
+
     <div id="tripsFetched"></div>
     <br>
     
-    <script type = "text/JavaScript" src = "https://momentjs.com/downloads/moment.js"></script>
     <script src="newtrip.js"></script>
     
     

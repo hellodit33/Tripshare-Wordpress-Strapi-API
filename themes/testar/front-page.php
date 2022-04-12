@@ -8,13 +8,11 @@
         with fellow travelers!</h1>
     
     <h3 class="catchphrase">Are you ready?</h3>
-  
+  <!-- Function to get down to the trips' buttons -->
     <script>const scrollToTrips = () => {
   window.scrollTo({
     top: 1570,
     behavior: 'smooth'
-    /* you can also use 'auto' behaviour
-       in place of 'smooth' */
   });
 };
 </script>
@@ -39,8 +37,11 @@
 <video width="600" height="350" controls>
  <source src="/wp-content/uploads/2022/04/Discover-more.mp4" type="video/mp4">
 </video>
+
 <div class="buttons-index">
   <h1 class="title-index">Join a trip with fellow travelers!</h1>
+    <!-- Buttons to pick a trip after preferences and geolocation, each function being a fetch function -->
+
   <h2>What would you like to do?</h2>
   <button onclick=fetchNorthernLights();>Northern Lights</button>
   <button onclick=fetchCouchsurfing();>Couchsurfing</button>
@@ -70,10 +71,13 @@
   <button onclick=fetchRingRoad();>Ring Road</button>
   <button onclick=fetchMountainTrip();>Mountain Trip</button>
   <button onclick=fetchFjords();>Fjords</button>
+  <!-- Button to find any kind of trip -->
 
 <h2>Up for anything?</h2>
 <button onclick="getDataFromStrapi();">Find all trips</button>
 </div>
+  <!-- div where the trips are shown -->
+
     <div id="tripsFetched"></div>
 
     
@@ -81,6 +85,8 @@
 
 
 </body>
+  <!-- function fetching all the trips -->
+
 <script>
     getDataFromStrapi();
     

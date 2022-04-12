@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_trip_destinations_trip_destinations",
+  "info": {
+    "displayName": "TripDestinations",
+    "icon": "binoculars"
+  },
+  "options": {},
+  "attributes": {
+    "LeavingDestination": {
+      "type": "string",
+      "required": true
+    },
+    "BetweenDestination": {
+      "type": "string",
+      "required": false
+    },
+    "BetweenDestination2": {
+      "type": "string"
+    },
+    "BetweenDestination3": {
+      "type": "string"
+    },
+    "ArrivingDestination": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

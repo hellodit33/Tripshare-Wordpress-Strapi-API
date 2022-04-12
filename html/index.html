@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <title>Find trips - Tripshare</title>
+</head>
+
+<body>
+    <nav>
+        <div class="logoimg">
+        <img src="" alt="Loga">
+    </div>
+        <a href="index.html">Find a trip</a>
+        <a href="newtrip.html">Add a new trip</a>
+        <a href="updatetrip.html">Update a trip</a>
+        <a href="login.html">Login</a>
+        <a href="logout.html">Log out</a>
+        <a href="signup.html">Signup</a>
+    </nav>
+    <div class="buttons-index">
+  <h1 class="title-index">Join a trip with fellow travelers!</h1>
+  <h2>What would you like to do?</h2>
+  <button onclick=fetchNorthernLights();>Northern Lights</button>
+  <button onclick=fetchCouchsurfing();>Couchsurfing</button>
+  <button onclick=fetchWaterfalls();>Waterfalls</button>
+  <button onclick=fetchSpontaneousTrip();>Spontaneous Trip</button>
+  <button onclick=fetchWhaleWatching();>Whale Watching</button><br><br>
+
+  <button onclick=fetchSwimmingPool();>Swimming Pool</button>
+  <button onclick=fetchRelax();>Relax</button>
+  <button onclick=fetchHiking();>Hiking</button>
+  <button onclick=fetchGlacierWalk();>Glacier Walk</button>
+  <button onclick=fetchCamping();>Camping</button>
+
+  <button onclick=fetchParty();>Party</button><br><br>
+  <button onclick=fetchPhotography();>Photography</button>
+  <button onclick=fetchSport();>Sport</button>
+  <button onclick=fetchHotSprings();>Hot Springs</button>
+  <button onclick=fetchFarmStay();>Farm Stay</button>
+
+  <br><br>
+  <h2>Where would you like to go?</h2>
+  <button onclick=fetchNorth();>North</button>
+  <button onclick=fetchSouth();>South</button>
+  <button onclick=fetchGoldenCircle();>Golden Circle</button>  
+  <button onclick=fetchHiddenGem();>Hidden Gem</button>
+  <button onclick=fetchSnaefellsnes();>Snaefellsnes</button>
+  <button onclick=fetchRingRoad();>Ring Road</button>
+  <button onclick=fetchMountainTrip();>Mountain Trip</button>
+  <button onclick=fetchFjords();>Fjords</button>
+
+
+
+<h2>Up for anything?</h2>
+<button onclick="getDataFromStrapi();">Find all trips</button>
+
+
+
+    </div>
+
+
+
+    <div id="tripsFetched"></div>
+
+    
+<br>
+
+
+</body>
+<script>
+    getDataFromStrapi();
+    
+</script> 
+
+</html>

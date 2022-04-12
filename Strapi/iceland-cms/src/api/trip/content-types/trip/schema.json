@@ -1,0 +1,63 @@
+{
+  "kind": "collectionType",
+  "collectionName": "trips",
+  "info": {
+    "singularName": "trip",
+    "pluralName": "trips",
+    "displayName": "Trip",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "tripName": {
+      "type": "string",
+      "required": true
+    },
+    "tripDescription": {
+      "type": "text",
+      "required": true
+    },
+    "TripDates": {
+      "displayName": "TripDates",
+      "type": "component",
+      "repeatable": false,
+      "component": "trip-dates.trip-dates"
+    },
+    "TripDestinations": {
+      "displayName": "TripDestinations",
+      "type": "component",
+      "repeatable": false,
+      "component": "trip-destinations.trip-destinations"
+    },
+    "tripMap2": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Seats": {
+      "required": true,
+      "type": "integer"
+    },
+    "geolocation": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::geolocation.geolocation",
+      "inversedBy": "trips"
+    },
+    "preferences": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::preference.preference",
+      "inversedBy": "trips"
+    }
+  }
+}

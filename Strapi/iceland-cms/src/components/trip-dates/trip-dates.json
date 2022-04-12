@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_trip_dates_trip_dates",
+  "info": {
+    "displayName": "TripDates",
+    "icon": "atlas"
+  },
+  "options": {},
+  "attributes": {
+    "LeavingDate": {
+      "type": "date",
+      "required": true
+    },
+    "ArrivingDate": {
+      "type": "date",
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,420 @@
+/*
+Theme Name: Tripshare
+Text Domain: Tripshare
+Version: 1.0
+Description: Gruppuppgift - KYH Stockholm
+Tags: Tripshare, iceland, trips, community
+Author: Elodie Pradet & Simon Khalaf
+*/
+
+* {
+  margin: auto;
+}
+
+/*----- Första bilden - startsidan -----*/
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+  font-family: "Cabin", sans-serif;
+}
+
+/*----- Logan till vänster -----*/
+.top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+
+/*----- Logga in ikonen till höger -----*/
+.top-right {
+  position: absolute;
+  top: 5px;
+  right: 16px;
+}
+
+/*----- Texten i mitten av bilden -----*/
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 300px;
+  padding-left: 150px;
+  padding-right: 150px;
+}
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 40px;
+  text-align: center;
+  width: 70%;
+}
+
+/*----- Navbar -----*/
+ul {
+  list-style-type: none;
+  overflow: hidden;
+  position: absolute;
+  top: 15px;
+  right: 10%;
+}
+
+li {
+  float: left;
+  background-color: #38a3a5;
+  border-radius: 32px;
+  margin: 3px;
+  padding-bottom: 1px;
+}
+
+li a {
+  display: block;
+  color: white;
+  font-family: "Cabin", sans-serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 20px;
+  text-align: center;
+  padding: 14px 16px;
+  line-height: 7px;
+  text-decoration: none;
+}
+
+li:hover {
+  background-color: #02c39a;
+  transition: 0.3s;
+}
+
+#active {
+  background-color: #02c39a;
+  color: white;
+}
+
+/*----- Specifik navbar bakgrund till trip sidan -----*/
+.nav {
+  background: #f6f6f6;
+  height: 75px;
+}
+
+/*----- Sektionen under första bilden - startsidan -----*/
+section {
+  background-color: #f6f6f6;
+  text-align: center;
+  background-image: url(http://tripshare.local/wp-content/themes/testar/bakgrund.jpg);
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+}
+
+.catchphrase {
+  font-size: 25px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button:hover {
+  background-color: #38a3a5;
+  border: 1px solid #38a3a5;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.sektion {
+  width: 50%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+/*----- Trips - bubblor med förslag -----*/
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.flex-container > div {
+  background-color: #c4c4c4;
+  width: 132px;
+  margin: 10px;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 32px;
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: bold;
+  font-size: 15px;
+  color: black;
+}
+
+.knapp {
+  text-align: center;
+  padding: 20px;
+}
+
+/*----- Logga in - sidan -----*/
+.login {
+  text-align: center;
+  padding: 20px;
+}
+
+.konto {
+  border-radius: 5px;
+  padding: 50px;
+  width: 30%;
+  text-align: center;
+  border: 1px solid black;
+}
+
+input {
+  width: 70%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  background-color: #00a896;
+  border: 1px solid #00a896;
+  color: white;
+  border-radius: 30px;
+  width: 25%;
+}
+
+body {
+  text-align: center;
+  margin: 0;
+  font-family: "Cabin", sans-serif;
+}
+
+nav {
+  background-color: #f6f6f6;
+  padding: 30px;
+}
+
+nav a {
+  background-color: #38a3a5;
+  color: white;
+  padding: 10px;
+  border-radius: 30px;
+  text-decoration: none;
+}
+
+nav a:hover {
+  background-color: #02c39a;
+  transition: 0.3s;
+}
+
+.logoimg {
+  float: left;
+}
+
+/*----- Resorna -----*/
+
+.row h2 {
+  color: white;
+}
+.row {
+  background-color: #38a3a5;
+  border-radius: 30px;
+  margin: auto;
+  width: 50%;
+  margin-top: 40px;
+}
+
+.trip-name {
+  padding: 15px;
+  font-family: "Cabin", sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+  color: white;
+  width: 100%;
+}
+
+th {
+  border: 1px solid black;
+}
+
+td {
+  border: 1px solid black;
+}
+
+.gridinfo {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  background-color: #086375;
+  color: white;
+  gap: 5px;
+  padding: 10px;
+}
+
+.griddescription {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr;
+  background-color: white;
+  color: #086375;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+
+  gap: 5px;
+  padding: 10px;
+}
+
+.gridfilterdescription {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr;
+  background-color: #086375;
+  color: white;
+  gap: 10px;
+  padding: 10px;
+}
+.gridseats {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr;
+  background-color: white;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #38a3a5;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+.gridtags {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+.tags {
+  background-color: white;
+  border-radius: 30px;
+  padding: 5px;
+  margin: 10px;
+}
+
+.tags:hover {
+  background-color: #086375;
+  color: white;
+  border-radius: 30px;
+  padding: 5px;
+  margin: 10px;
+}
+
+.tags:active {
+  background-color: #38a3a5;
+  color: white;
+  border-radius: 30px;
+  padding: 5px;
+  margin: 10px;
+}
+@media screen and (max-width: 800px) {
+  .row {
+    width: 80%;
+  }
+}
+
+/*----- Kartorna så att de passar in -----*/
+img {
+  width: 100%;
+}
+
+/*----- Resorna efter att ha tryckt på knapparna -----*/
+.filtrering {
+  background-color: #38a3a5;
+  width: 40%;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 30px;
+  border: 1px;
+}
+
+.filtrering h2 {
+  color: white;
+}
+
+/*----- Knapparna längst upp -----*/
+button {
+  padding: 15px;
+  margin: 10px;
+  border: 1px solid #02c39a;
+  background-color: #02c39a;
+  color: white;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  width: 170px;
+}
+
+.findtrips-button {
+  padding: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: rgba(2, 195, 154, 0.75);
+  border: 1px solid rgba(2, 195, 154, 0.75);
+  color: white;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 20px;
+  width: 200px;
+}
+
+.loginform {
+  width: 50%;
+  margin: auto;
+  padding: 10px;
+}
+
+.newtripform {
+  width: 50%;
+  margin: auto;
+  padding: 10px;
+}
+input {
+  padding: 5px;
+}
+
+.titel {
+  color: #02c39a;
+  font-weight: bold;
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+
+.title-pages {
+  padding-top: 130px;
+}
+
+.title-index {
+  padding-top: 30px;
+}
+
+.sektion h3 {
+  color: rgba(5, 102, 141, 0.75);
+  font-size: 30px;
+}
+
+.sektion p {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.buttons-index h2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

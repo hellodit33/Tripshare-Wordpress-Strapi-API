@@ -1,0 +1,176 @@
+* {
+  margin: auto;
+}
+
+/*----- Första bilden - startsidan -----*/
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+/*----- Logan till vänster -----*/
+.top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+  
+/*----- Logga in ikonen till höger -----*/
+  .top-right {
+  position: absolute;
+  top: 5px;
+  right: 16px;
+}
+
+/*----- Texten i mitten av bilden -----*/
+  .centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 40px;
+  text-align: center;
+}
+
+/*----- Navbar -----*/
+  ul {
+  list-style-type: none;
+  overflow: hidden;
+  position: absolute;
+  top: 15px;
+  right: 10%;
+}
+  
+  li {
+  float: left;
+  background-color: #05668D;
+  border-radius: 32px;
+  margin: 3px;
+  padding-bottom: 1px;
+}
+  
+  li a {
+  display: block;
+  color: white;
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 500;
+  font-size: 20px;
+  text-align: center;
+  padding: 14px 16px;
+  line-height: 7px;
+  text-decoration: none;
+}
+
+li:hover {
+  background-color: #02C39A;
+  transition: .3s;
+}
+
+#active {
+  background-color: #02C39A;
+  color: white;
+}
+
+/*----- Specifik navbar bakgrund till trip sidan -----*/
+.nav {
+  background: #f6f6f6; 
+  height: 75px;
+} 
+
+/*----- Sektionen under första bilden - startsidan -----*/
+  section {
+  background-color: #f6f6f6;
+  text-align: center;
+  padding: 40px;
+}
+
+  h3 {
+  font-size: 25px;
+}
+
+  button {
+  padding: 8px;
+  background-color: rgba(2, 195, 154, 0.75);
+  border: 1px solid rgba(2, 195, 154, 0.75);
+  color: white;
+  border-radius: 32px;
+  font-weight: 700;
+  font-size: 15px;
+  width: 130px;
+}
+
+button:hover {
+  background-color: #05668D;
+  border: 1px solid #05668D;
+  transition: .3s;
+  cursor: pointer;
+}
+
+  .sektion {
+  background-color: white;
+  width: 60%;
+}
+
+/*----- Trips - bubblor med förslag -----*/
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.flex-container > div {
+  background-color: #C4C4C4;
+  width: 132px;
+  margin: 10px;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 32px;
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: bold;
+  font-size: 15px;
+  color: black;
+}
+
+.knapp {
+  text-align: center;
+  padding: 20px;
+}
+
+/*----- Logga in - sidan -----*/
+.login {
+  text-align: center;
+  padding: 20px;
+}
+
+.konto {
+  border-radius: 5px;
+  padding: 50px;
+  width: 30%;
+  text-align: center;
+  border: 1px solid black;
+}
+
+input {
+  width: 70%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  background-color: #00A896;
+  border: 1px solid #00A896;
+  color: white;
+  border-radius: 30px;
+  width: 25%;
+}

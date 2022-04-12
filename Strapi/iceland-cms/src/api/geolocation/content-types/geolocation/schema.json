@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "geolocations",
+  "info": {
+    "singularName": "geolocation",
+    "pluralName": "geolocations",
+    "displayName": "Geolocation",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Place": {
+      "type": "string"
+    },
+    "trips": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::trip.trip",
+      "mappedBy": "geolocation"
+    }
+  }
+}

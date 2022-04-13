@@ -16,7 +16,7 @@
   });
 };
 </script>
-    <button class="findtrips-button" onclick=scrollToTrips()>Find your next trip</button>
+    <button class="findtrips-button" onclick=scrollToT]rips()>Find your next trip</button>
 
     
     </div>

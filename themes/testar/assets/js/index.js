@@ -26,11 +26,13 @@ async function getDataFromStrapi() {
            
             let obj = element.attributes;
         
-        //if/else if statement for when the map is not downloaded by the user
+           //if/else if statement for when geolocation and preferences are not submitted by the user
+             //the new trip form is not ready for selecting preferences and geolocation when creating a trip so this output does not show preferences and geolocation
+
+
         //dates become a string without time so that they can get back into the input date field when updating a trip
-        //here if user did not upload a map
+       
         //data-id in the main div is used to get the object's id and use it in update and delete functions later
-         //the new trip form is not ready for uploading a map neither for selecting preferences and geolocation when creating a trip so this output does not show either map or preferences and geolocation
          if (!obj.geolocation.data && !obj.preferences.data[0] && !obj.preferences.data[1]) {
           
            
@@ -89,7 +91,8 @@ async function getDataFromStrapi() {
             `;
         }
     
-    //here if the user has downloaded a map, and there's geolocation and preferences linked to the trip
+ //here if there's geolocation and preferences linked to the trip - which is true for the data already ready in strapi database
+    
    
     else if (obj.geolocation && obj.preferences) {
         
